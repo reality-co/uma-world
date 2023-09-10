@@ -1,0 +1,45 @@
+# fly.toml app configuration file generated for uma-world-valhalla-america on 2023-09-10T22:02:29+02:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = "uma-world-valhalla-america"
+primary_region = "lax"
+
+[build]
+  image = "ghcr.io/gis-ops/docker-valhalla/valhalla:latest"
+
+[env]
+  build_admins = "True"
+  build_elevation = "False"
+  build_tar = "True"
+  build_timezones = "True"
+  build_transit = "False"
+  force_rebuild = "False"
+  serve_tiles = "True"
+  tile_urls = "http://download.geofabrik.de/central-america-latest.osm.pbf http://download.geofabrik.de/north-america-latest.osm.pbf http://download.geofabrik.de/south-america-latest.osm.pbf"
+  tileset_name = "uma_world_valhalla_america_tiles"
+  use_tiles_ignore_pbf = "True"
+
+[[mounts]]
+  source = "uma_world_valhalla_america"
+  destination = "/custom_files"
+
+[[services]]
+  protocol = "tcp"
+  internal_port = 8002
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 1
+
+  [[services.ports]]
+    port = 80
+
+  [[services.http_checks]]
+    interval = "10m0s"
+    timeout = "2s"
+    grace_period = "15m0s"
+    method = "GET"
+    path = "/status"
+    protocol = "http"
+    tls_skip_verify = true
