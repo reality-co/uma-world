@@ -17,5 +17,6 @@ Process for deployment:
 
 
 NAME | REGIONS | CPU | RAM | DISK
+---- | ------- | --- | --- | ----
 europe.untitledmap.app | Europe | shared-4x | 4096 | 500
 america.untitledmap.app | North, Central and South America | shared-4x | 2048 | 230
