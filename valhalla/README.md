@@ -1,6 +1,17 @@
-# uma-world Valhalla map services
+# uma.world Valhalla map services
+
+We use [Valhalla](https://github.com/valhalla/valhalla/) with OpenStreetMap data to provide some services to the app like map matching / snap to road, navigation, etc.
 
 Split by region because loading the entire planet in a single instance is hard
+
+## uma.world regions
+
+NAME | REGIONS | CPU | RAM | DISK
+---- | ------- | --- | --- | ----
+europe.untitledmap.app | Europe | shared-4x | 4096 | 230
+america.untitledmap.app | North, Central and South America | shared-4x | 4096 | 230
+
+## Deployment process
 
 Process for deployment:
 
@@ -15,8 +26,6 @@ Process for deployment:
 - allocate an IP: `fly ips allocate-v6` (no need for IPv4)
 - then set up certificates on Fly dashboard directly and DNS CNAME record on Cloudflare
 
+## Deployment time
 
-NAME | REGIONS | CPU | RAM | DISK
----- | ------- | --- | --- | ----
-europe.untitledmap.app | Europe | shared-4x | 4096 | 500
-america.untitledmap.app | North, Central and South America | shared-4x | 2048 | 230
+Rebuilding tiles for a continent takes about 8 hours on a `shared-cpu-4x` Fly instance. A significant part of the process is single-threaded, which means the bottleneck is on single-core CPU performance.
